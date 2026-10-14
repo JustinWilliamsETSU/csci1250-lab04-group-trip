@@ -35,6 +35,21 @@ System.Console.WriteLine("Fuel Cost: " + FuelCost(miles, milesPerGallon, pricePe
 System.Console.WriteLine("Pizza cost: " + pizzaCost.ToString("C"));
 System.Console.WriteLine("Trip total: " + tripTotal.ToString("C"));
 
+
+// Part 2: The Group
+string[] names = { "Ada", "Grace", "Alan", "Katherine" };
+double[] hoursWorked = { 22, 15, 30, 18 };
+double[] hourlyRates = { 13.50, 16.00, 11.20, 14.80 };
+
+double totalSlices = slicesperPizza * pizzas;
+double slicesPerPerson = totalSlices / names.Length;
+double costPerPerson = tripTotal / names.Length;
+
+System.Console.WriteLine("\n=== Part 2: The Group ===");
+System.Console.WriteLine("People going: " + names.Length);
+System.Console.WriteLine("Slices each: " + slicesPerPerson.ToString("F1"));
+System.Console.WriteLine("Cost per person: " + costPerPerson.ToString("C"));
+
 /*
 // Calculates the math
 double gallonsNeeded = milesForTheTrip / (double)milesPerGallon;

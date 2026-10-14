@@ -1,9 +1,9 @@
 ﻿﻿/*
  * Name:        Justin Williams
  * Course:      CSCI 1250, Section 002
- * Assignment:  Lab 04, Trip Calculator
+ * Assignment:  Lab 04, The Group Trip
  * Date:        October 14, 2026
- * Description: Calculates the food, fuel, and work hours behind one road trip.
+ * Description: Rebuilds the trip calculator with methods and arrays so it reports on a whole group instead of one person.
  */
 
 // Constants
@@ -38,65 +38,40 @@ System.Console.WriteLine("Trip total: " + tripTotal.ToString("C"));
 
 // Part 2: The Group
 string[] names = { "Ada", "Grace", "Alan", "Katherine" };
-double[] hoursWorked = { 22, 15, 30, 18 };
+int[] hoursWorked = { 22, 15, 30, 18 };
 double[] hourlyRates = { 13.50, 16.00, 11.20, 14.80 };
 
 double totalSlices = slicesperPizza * pizzas;
 double slicesPerPerson = totalSlices / names.Length;
 double costPerPerson = tripTotal / names.Length;
+int totalHoursWorked = 0;
+double totalTakeHomePay = 0;
+double longestWorked = 0;
 
 System.Console.WriteLine("\n=== Part 2: The Group ===");
 System.Console.WriteLine("People going: " + names.Length);
 System.Console.WriteLine("Slices each: " + slicesPerPerson.ToString("F1"));
 System.Console.WriteLine("Cost per person: " + costPerPerson.ToString("C"));
 
-/*
-// Calculates the math
-double gallonsNeeded = milesForTheTrip / (double)milesPerGallon;
-double fuelCost = gallonsNeeded * pricePerGallon;
 
-// Output
-System.Console.WriteLine("\nGallons needed: " + gallonsNeeded.ToString("F2"));
-System.Console.WriteLine("Fuel Cost: " + fuelCost.ToString("C"));
+// Part 3: The Report
+System.Console.WriteLine("\n=== Part 3: Who Works How Long ===");
+for (int i = 0; i < names.Length; i++)
+{
+    double takeHome = TakeHomePay(hoursWorked[i], hourlyRates[i], taxRate);
+    double takeHomePerHour = hourlyRates[i] * (1 - taxRate);
+    double hoursToCoverShare = HoursToCover(costPerPerson, takeHomePerHour);
 
-// PART 2: PIZZA PARTY
-System.Console.WriteLine("\n=== Part 2: Pizza Party ===");
-int peopleGoing = Convert.ToInt32(Console.ReadLine());
+    totalHoursWorked += hoursWorked[i];
+    totalTakeHomePay += takeHome;
+    longestWorked = Math.Max(longestWorked, hoursToCoverShare);
 
-// How many slices per pizza, and how many slices total that makes, and price
+    Console.WriteLine(names[i] + ": takes home " + takeHome.ToString("C") + " for " + hoursWorked[i] + " hours, " + takeHomePerHour.ToString("C") + " per hour, must work " + hoursToCoverShare.ToString("F2") + " hours");
+}
 
-// Pizzas Output
-System.Console.WriteLine("\nTotal slices: " + totalSlices);
-System.Console.WriteLine("Slices per person: " + slicesPerPerson.ToString("F1"));
-
-// Paycheck input
-System.Console.WriteLine("\n=== Part 3: Paycheck ===");
-double hoursWorked = Convert.ToDouble(Console.ReadLine());
-
-double hourlyRate = Convert.ToDouble(Console.ReadLine());
-
-// Calculating three things
-double grossPay = hoursWorked * hourlyRate;
-double taxWithheld = grossPay * taxRate;
-double takeHomePay = grossPay - taxWithheld;
-
-// Paycheck Output
-System.Console.WriteLine("\nGross pay: " + grossPay.ToString("C"));
-System.Console.WriteLine("Tax withheld: " + taxWithheld.ToString("C"));
-System.Console.WriteLine("Take home pay: " + takeHomePay.ToString("C"));
-
-// The Whole Trip - Calculations
-double costPerPerson = tripTotal / peopleGoing;
-double takeHomePayPerHour = takeHomePay / hoursWorked;
-double hoursNeeded = costPerPerson / takeHomePayPerHour;
-
-// The Whole Trip - Output
-System.Console.WriteLine("\n=== Part 4: The Whole Trip ===");
-System.Console.WriteLine("Cost per person: " + costPerPerson.ToString("C"));
-System.Console.WriteLine("Take home pay per hour: " + takeHomePayPerHour.ToString("C"));
-System.Console.WriteLine("Hours you must work to cover your share: " + hoursNeeded.ToString("F2"));
-
-*/
+System.Console.WriteLine("\nTotal hours worked: " + totalHoursWorked);
+System.Console.WriteLine("Total take home pay: " + totalTakeHomePay.ToString("C"));
+System.Console.WriteLine("Longest anyone must work: " + longestWorked.ToString("F2"));
 
 // Methods
 static double FuelCost(double miles, double milesPerGallon, double pricePerGallon)
